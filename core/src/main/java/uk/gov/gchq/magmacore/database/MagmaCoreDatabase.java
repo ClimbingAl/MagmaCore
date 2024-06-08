@@ -24,6 +24,7 @@ import uk.gov.gchq.magmacore.database.query.QueryResultList;
 import uk.gov.gchq.magmacore.database.validation.ValidationReportEntry;
 import uk.gov.gchq.magmacore.hqdm.model.Thing;
 import uk.gov.gchq.magmacore.hqdm.rdf.iri.IRI;
+import uk.gov.gchq.magmacore.hqdm.rdf.iri.IriBase;
 import uk.gov.gchq.magmacore.service.transformation.DbCreateOperation;
 import uk.gov.gchq.magmacore.service.transformation.DbDeleteOperation;
 
@@ -226,4 +227,12 @@ public interface MagmaCoreDatabase {
             final String constructQuery,
             final String rules,
             final boolean includeRdfsRules);
+
+    /**
+     * Register prefix for the database.
+     *
+     * @param iriBaseToRegister Prefix to register.
+     */
+    void register(IriBase iriBaseToRegister);
+    
 }

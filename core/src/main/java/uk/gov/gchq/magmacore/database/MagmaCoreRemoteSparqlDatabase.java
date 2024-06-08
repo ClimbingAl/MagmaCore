@@ -58,6 +58,7 @@ import uk.gov.gchq.magmacore.database.validation.ValidationReportEntry;
 import uk.gov.gchq.magmacore.hqdm.model.Thing;
 import uk.gov.gchq.magmacore.hqdm.rdf.HqdmObjectFactory;
 import uk.gov.gchq.magmacore.hqdm.rdf.iri.IRI;
+import uk.gov.gchq.magmacore.hqdm.rdf.iri.IriBase;
 import uk.gov.gchq.magmacore.hqdm.rdf.util.Pair;
 import uk.gov.gchq.magmacore.service.transformation.DbCreateOperation;
 import uk.gov.gchq.magmacore.service.transformation.DbDeleteOperation;
@@ -539,5 +540,15 @@ public class MagmaCoreRemoteSparqlDatabase implements MagmaCoreDatabase {
 
         // Create an Inference Model which will run the rules.
         return ModelFactory.createInfModel(reasoner, subset);
+    }
+
+    /**
+     * Register a new prefix/namespace mapping which will be used to shorten the
+     * print strings for resources in known namespaces.
+     *
+     * @param base {@link IriBase} to register.
+     */
+    public void register(final IriBase base) {
+        PrintUtil.registerPrefix(base.getPrefix(), base.getNamespace());
     }
 }
