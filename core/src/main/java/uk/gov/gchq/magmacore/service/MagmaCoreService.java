@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFFormat;
 
 import uk.gov.gchq.magmacore.database.MagmaCoreDatabase;
 import uk.gov.gchq.magmacore.database.query.QueryResult;
@@ -937,7 +938,7 @@ public class MagmaCoreService {
      * @param out A {@link PrintStream}.
      */
     public void exportTtl(final PrintStream out) {
-        database.dump(out, Lang.TTL);
+        database.dump(out, RDFFormat.TURTLE_PRETTY);
     }
 
     /**

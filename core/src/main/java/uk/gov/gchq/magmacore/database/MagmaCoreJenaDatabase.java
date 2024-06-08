@@ -47,6 +47,7 @@ import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.tdb2.TDB2Factory;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -114,6 +115,9 @@ public class MagmaCoreJenaDatabase implements MagmaCoreDatabase {
      * @param base {@link IriBase} to register.
      */
     public void register(final IriBase base) {
+        dataset.begin();
+        this.dataset.getDefaultModel().setNsPrefix(base.getPrefix(), base.getNamespace());
+        dataset.commit();
         PrintUtil.registerPrefix(base.getPrefix(), base.getNamespace());
     }
 
@@ -462,9 +466,11 @@ public class MagmaCoreJenaDatabase implements MagmaCoreDatabase {
      * @param out      Output stream to dump to.
      * @param language RDF language syntax to output data as.
      */
-    public final void dump(final PrintStream out, final Lang language) {
+    public final void dump(final PrintStream out, final RDFFormat language) {
         beginRead();
-        RDFDataMgr.write(out, dataset.getDefaultModel(), language);
+
+        dataset.getDefaultModel().write(out, "TTL");
+        
         abort();
     }
 
