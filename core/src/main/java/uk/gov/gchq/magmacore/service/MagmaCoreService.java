@@ -887,6 +887,51 @@ public class MagmaCoreService {
     }
 
     /**
+     * Find objects by a predicate in transaction.
+     *
+     * @param <T>       HQDM entity type.
+     * @param predicate the predicate {@link IRI}
+     * @return a List of {@link Thing} that were found.
+     */
+    public <T extends Thing> List<T> findByPredicateIriInTransaction(final IRI predicate) {
+
+        try {
+            database.beginRead();
+            final List<Thing> result = database.findByPredicateIriOnly(predicate);
+            database.commit();
+            return (List<T>) result;
+
+        } catch (final Exception e) {
+            database.abort();
+            throw e;
+        }
+
+    }
+
+    /**
+     * Find objects by a predicate and value in transaction.
+     *
+     * @param <T>       HQDM entity type.
+     * @param predicate the predicate {@link IRI}
+     * @param value     The value of the predicate.
+     * @return a List of {@link Thing} that were found.
+     */
+    public <T extends Thing> List<T> findByPredicateIriAndValueInTransaction(final IRI predicate, final Object value) {
+
+        try {
+            database.beginRead();
+            final List<Thing> result = database.findByPredicateIriAndValue(predicate, value);
+            database.commit();
+            return (List<T>) result;
+
+        } catch (final Exception e) {
+            database.abort();
+            throw e;
+        }
+
+    }
+
+    /**
      * Dump the database to TTL format.
      *
      * @param out A {@link PrintStream}.
