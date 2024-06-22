@@ -1391,6 +1391,12 @@ public final class HQDM {
     public static final HqdmIri SPATIO_TEMPORAL_EXTENT = new HqdmIri(HQDM, "spatio_temporal_extent");
 
     /**
+     * A relationship type where each {@link #MEMBER_OF} the class is a {@link #MEMBER_OF} the
+     * SUPERTYPE.  This needs to be elaborated, adding the reified type at the top level(Thing)
+     */
+    public static final HqdmIri HAS_SUPERTYPE = new HqdmIri(HQDM, "has_supertype");
+
+    /**
      * A {@link uk.gov.gchq.magmacore.hqdm.model.Relationship} where each {@link #MEMBER__OF} the
      * {@link #SUBCLASS} is a {@link #MEMBER__OF} the {@link #SUPERCLASS}.
      */
