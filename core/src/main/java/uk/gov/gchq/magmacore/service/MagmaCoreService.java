@@ -44,6 +44,7 @@ import uk.gov.gchq.magmacore.hqdm.model.Role;
 import uk.gov.gchq.magmacore.hqdm.model.Thing;
 import uk.gov.gchq.magmacore.hqdm.rdf.iri.HQDM;
 import uk.gov.gchq.magmacore.hqdm.rdf.iri.IRI;
+import uk.gov.gchq.magmacore.hqdm.rdf.iri.IriBase;
 import uk.gov.gchq.magmacore.service.dto.ParticipantDetails;
 import uk.gov.gchq.magmacore.service.dto.SignPatternDto;
 import uk.gov.gchq.magmacore.service.sparql.MagmaCoreServiceQueries;
@@ -1025,4 +1026,16 @@ public class MagmaCoreService {
     public void loadTtl(final InputStream stream) {
         database.load(stream, Lang.TTL);
     }
+
+    /**
+     * Constructs a MagmaCoreService for a {@link MagmaCoreDatabase}.
+     *
+     * @param prefixesToRegister List of IriBase to build the service for.
+     */
+    public void register(final List<IriBase> prefixesToRegister) {
+        prefixesToRegister.forEach(pf -> {
+            this.database.register(pf);
+        });
+    }
+
 }
