@@ -449,7 +449,7 @@ public class MagmaCoreRemoteSparqlDatabase implements MagmaCoreDatabase {
      * @param out      Output stream to dump to.
      * @param language RDF language syntax to output data as.
      */
-    public final void dump(final PrintStream out, final Lang language) {
+    public final void dump(final PrintStream out, final RDFFormat language) {
         final Dataset dataset = connection.fetchDataset();
         RDFDataMgr.write(out, dataset.getDefaultModel(), language);
     }

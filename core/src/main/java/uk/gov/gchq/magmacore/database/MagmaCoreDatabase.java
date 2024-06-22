@@ -19,6 +19,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFFormat;
 
 import uk.gov.gchq.magmacore.database.query.QueryResultList;
 import uk.gov.gchq.magmacore.database.validation.ValidationReportEntry;
@@ -150,13 +151,13 @@ public interface MagmaCoreDatabase {
 
     /**
      * Write the database as TTL using the {@link PrintStream} and
-     * {@link org.apache.jena.riot.Lang}.
+     * {@link org.apache.jena.riot.RDFFormat}.
      *
      * @param out      a {@link PrintStream}
-     * @param language a {@link Lang}
+     * @param language a {@link RDFFormat}
      */
-    void dump(final PrintStream out, final Lang language);
-
+    void dump(final PrintStream out, final RDFFormat language);
+    
     /**
      * Import data into the model.
      *
@@ -234,5 +235,5 @@ public interface MagmaCoreDatabase {
      * @param iriBaseToRegister Prefix to register.
      */
     void register(IriBase iriBaseToRegister);
-    
+
 }
