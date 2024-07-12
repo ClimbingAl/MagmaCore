@@ -143,6 +143,14 @@ public interface MagmaCoreDatabase {
     List<Thing> findByPredicateIriAndStringCaseInsensitive(IRI predicateIri, String value);
 
     /**
+     * Find object(s) that have a specific predicate linking it with the iriPart.
+     *
+     * @param iriPart IRI of the s p iriPart being queried.
+     * @return The {@link Thing}(s).
+     */
+    List<Thing> getRelatedObjectsWithIriPart(final String iriPart);
+
+    /**
      * Dump the contents of the collection as text.
      *
      * @param out Output stream to dump to.

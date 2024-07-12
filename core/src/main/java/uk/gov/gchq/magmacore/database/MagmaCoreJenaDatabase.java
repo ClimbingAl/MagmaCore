@@ -337,6 +337,31 @@ public class MagmaCoreJenaDatabase implements MagmaCoreDatabase {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Thing> getRelatedObjectsWithIriPart(final String iriPart) {
+        final String query =
+                String.format("SELECT ?s ?p ?o WHERE {?s ?p ?o. FILTER(CONTAINS(str(?o), \"%1$s\")).}", iriPart);
+        final QueryResultList list = executeQuery(query);
+        final List<Thing> thingsToReturn = new ArrayList<>();
+        // Remove duplicates
+        // Create list of unique subjects
+        list.getQueryResults()
+                .forEach(objToFind -> {
+                    final String toFind = objToFind.get("s")
+                            .toString();
+                    final Thing tmpThing = get(new IRI(toFind));
+                    if (tmpThing != null) {
+                        thingsToReturn.add(tmpThing);
+                    }
+                });
+
+        // Search for each object and add to the list of objects
+        return thingsToReturn;
+    }
+
+    /**
      * Execute a CONSTRUCT query.
      *
      * @param sparqlQueryString a CONSTRUCT query {@link String}

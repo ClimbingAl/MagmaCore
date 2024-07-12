@@ -1138,4 +1138,43 @@ public class MagmaCoreServiceQueries {
                     ?p ?o.
             }
             """;
+    
+    /**
+     * This query finds objects that are subtypes (inc. subclasses) of a specified type
+     * that is a HQDM {@link uk.gov.gchq.magmacore.hqdm.model.Thing}.
+     * <p>
+     * It needs one parameter:
+     * <ol>
+     * <li>the rdf:type IRI String</li>
+     * </ol>
+     * </p>
+     * <p>
+     * The result includes objects that represent all of the found subtypes (inc. subclasses).
+     * </p>
+     */
+    public static final String FIND_SUBTYPES_AND_SUBCLASSES = """
+        PREFIX hqdm: <https://hqdmtop.github.io/hqdm#>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        
+        select distinct ?s ?p ?o
+        where {
+          {
+              select ?x where
+              {
+                  BIND(<%s> as ?queryType)
+                  ?x a ?queryType .
+              }
+          }
+          {
+            ?s ?p ?o;
+               hqdm:has_superclass+ ?x.
+          }
+          UNION
+          {
+            ?s ?p ?o;
+               hqdm:has_supertype+ ?x.
+          }
+        }
+        order by ?s ?p ?o
+            """;
 }

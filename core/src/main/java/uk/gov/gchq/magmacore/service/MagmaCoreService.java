@@ -17,6 +17,7 @@ package uk.gov.gchq.magmacore.service;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -930,6 +931,45 @@ public class MagmaCoreService {
             throw e;
         }
 
+    }
+
+    /**
+     * Find the Things that are subtypes (inc. subclasses) of a given HQDM type IRU.
+     *
+     * @param typeIri   The HQDM type IRI.
+     * @return A {@link List} of {@link Thing}.
+     */
+    public List<? extends Thing> findHqdmSubTypesAndSubClasses(
+            final IRI typeIri) {
+
+        final QueryResultList queryResultList = database.executeQuery(String.format(
+                MagmaCoreServiceQueries.FIND_SUBTYPES_AND_SUBCLASSES, typeIri));
+
+        return database.toTopObjects(queryResultList);
+    }
+
+    /**
+     * Find objects linked by a predicate that references another object with iriPart id.
+     *
+     * @param <T>       HQDM entity type.
+     * @param iriPart the predicate {@link IRI}
+     * @return a List of {@link Thing} that were found.
+     */
+    public <T extends Thing> List<T> getRelatedObjectsWithIriPartInTransaction(final String iriPart) {
+        try {
+            final List<Thing> result = new ArrayList<>();
+            database.beginRead();
+
+            database.getRelatedObjectsWithIriPart(iriPart).forEach(thing -> {
+                result.add(thing);
+            });
+
+            database.commit();
+            return (List<T>) result;
+        } catch (final Exception e) {
+            database.abort();
+            throw e;
+        }
     }
 
     /**
