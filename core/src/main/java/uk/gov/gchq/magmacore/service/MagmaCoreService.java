@@ -951,6 +951,15 @@ public class MagmaCoreService {
     }
 
     /**
+     * Dump the database to file in Statement format.
+     *
+     * @param out A {@link PrintStream}.
+     */
+    public void exportStmts(final PrintStream out) {
+        database.dump(out);
+    }
+
+    /**
      * Verify that the model in the database matches how we want to use HQDM.
      *
      * @return A {@link List} of {@link Thing} representing model integrity errors.

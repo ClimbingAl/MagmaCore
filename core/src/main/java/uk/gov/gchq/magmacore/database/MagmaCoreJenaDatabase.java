@@ -455,7 +455,7 @@ public class MagmaCoreJenaDatabase implements MagmaCoreDatabase {
 
         while (statements.hasNext()) {
             final Statement statement = statements.nextStatement();
-            out.println(" - " + PrintUtil.print(statement));
+            out.println(PrintUtil.print(statement));
         }
         abort();
     }
